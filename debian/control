@@ -10,6 +10,6 @@ Package: yavdr-addon-pip
 Architecture: all
 Depends: ${yavdr-startup},${misc:Depends}, yavdr-utils, wmctrl, x11-utils, vdr,
  vdr-plugin-softhddevice,
- vdr-plugin-streamdev-client, vdr-plugin-streamdev-server
+ vdr-plugin-streamdev-client, vdr-plugin-streamdev-server, vdr-plugin-dbus2vdr, yavdr-base
 Description: yavdr-addon-pip
  yavdr-addon-pip
