@@ -22,7 +22,6 @@ script
    -D 10 -p 2101 \
    -P"softhddevice -a xxx" \
    -Pstreamdev-client \
-   --lirc=/dev/null \
    --no-kbd
 end script
 
