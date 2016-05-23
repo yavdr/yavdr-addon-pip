@@ -18,9 +18,11 @@ end script
 
 script
   exec /usr/bin/vdr -c /var/lib/vdr-pip \
+   -i \
    -L /usr/lib/vdr/plugins \
    -D 10 -p 2101 \
    -P"softhddevice -a xxx" \
+   -Pdbus2vdr \
    -Pstreamdev-client \
    --no-kbd
 end script
