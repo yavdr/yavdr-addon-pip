@@ -1,0 +1,11 @@
+7fece3bf0b37801b4080d2c3c23ef885  usr/lib/systemd/user/vdr-pip-2nd-display.service
+b84d4c306d66aac318412c32ed767aa7  usr/lib/systemd/user/vdr-pip.service
+8a48d87da515e4de037d85749b6b5edc  usr/share/doc/yavdr-addon-pip/changelog.Debian.gz
+ec01bca8797726f30b9e7bec457d098b  usr/share/doc/yavdr-addon-pip/copyright
+78667a91d0b6059d12acde2e304f631e  usr/share/yavdr/images/yavdr_pip_onoff.gif
+e8f595d02e339fd9a684eb8f292f8de4  usr/share/yavdr/images/yavdr_pip_swap.gif
+3304e6b4c6bbbac3c154ec67aeba600d  var/lib/vdr-pip/remote.conf
+2f506ba3ede535cdccb9d263d8be24bb  var/lib/vdr-pip/setup.conf
+252f767cbd8cfff5518bf337022adeb3  var/lib/vdr-pip/svdrphosts.conf
+4992d7743bb5bbd074076bea47f3cdf1  var/lib/vdr-pip/themes/classic-default.theme
+48d28ce23ca3e42acac20384bd032e42  var/lib/vdr-pip/themes/sttng-default.theme

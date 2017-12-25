@@ -1,0 +1,6 @@
+/etc/dbus-1/system.d/de.tvdr.vdr1.conf
+/etc/vdr-pip/scripts/default
+/etc/vdr-pip/scripts/pip-common
+/etc/vdr-pip/scripts/pipswap
+/etc/vdr-pip/vdr-pip.conf
+/etc/vdr-pip/vdrargs.conf

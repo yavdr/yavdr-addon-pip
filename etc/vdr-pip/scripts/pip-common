@@ -1,0 +1,73 @@
+#!/bin/bash
+vdr_user="vdr"
+tmp_file=/run/user/$(id -u)/vdr-pip.tmp
+source /etc/vdr-pip/vdr-pip.conf
+
+function vdr-pip-dbus-send
+{
+DEST=de.tvdr.vdr.1
+OBJECT=$1
+shift
+INTERFACE=$1
+shift
+
+dbus-send --system --type=method_call --dest=$DEST --print-reply $OBJECT $DEST.$INTERFACE "$@"
+}
+
+function get_vdr_channel
+{
+	# get the channel currently tuned to by the main vdr
+	vdr_channel=$(vdr-dbus-send /Remote remote.SwitchChannel string:'' | grep -Po "(?<=string \")\d+")
+}
+
+function get_pip_channel
+{
+	# get the channel currently tuned to by the pip vdr
+	pip_channel=$(vdr-pip-dbus-send /Remote remote.SwitchChannel string:'' | grep -Po "(?<=string \")\d+")
+}
+
+# preparation before starting the pip vdr
+function pre_start
+{
+	get_vdr_channel
+	[ -z "$vdr_channel" ] && exit
+
+	# set the channel in the setup.conf of our pip vdr to $vdrchan
+	sed -i "/CurrentChannel/d" /var/lib/vdr-pip/setup.conf
+	echo "CurrentChannel = $vdr_channel" >> /var/lib/vdr-pip/setup.conf
+
+	# update channels.conf
+	cp /var/lib/vdr/channels.conf /var/lib/vdr-pip/channels.conf
+
+	# get the window id of the currently active vdr frontend
+	main_window_id=$(wmctrl -l | awk '/VDR|softhddevice|xine/{print $1}')
+
+	# write variables to a file, so we can read them later
+	cat <<-EOF > "$tmp_file" 
+	main_window_id="${main_window_id}"
+	EOF
+}
+
+function post_start
+{
+	# move pip window to desired position
+	# source the previously written variables
+	. "$tmp_file"
+
+	# get the screen resolution
+	IFS='x' read -r screen_width screen_height < <(xrandr -q | awk '/\*/{print $1}')
+
+	# get the window id of the pip vdr frontend
+	while [ -z "$pip_window_id" ]; do
+		pip_window_id=$(wmctrl -l | awk '/VDR|softhddevice|xine/ && !/'"$main_window_id"'/ {print $1}')
+	done
+}
+
+case "$1" in
+	pre_start)
+		pre_start
+		;;
+	post_start)
+		post_start
+		;;
+esac

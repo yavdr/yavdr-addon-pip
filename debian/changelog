@@ -1,3 +1,9 @@
+yavdr-addon-pip (0.3.0.2384-0yavdr0~bionic) bionic; urgency=medium
+
+  * update package for systemd
+
+ -- Alexander Grothe <alexander@yaVDR07>  Mon, 25 Dec 2017 15:07:31 +0100
+
 yavdr-addon-pip (0.3.0.2383-1yavdr1) lucid; urgency=low
 
   * build 
