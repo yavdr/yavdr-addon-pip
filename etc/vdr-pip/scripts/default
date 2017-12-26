@@ -20,10 +20,9 @@
     
 function post_start
 {
-    
     _post_start
     # calculate pip size and position
-    pip_height=$(get_16_9_window_height pip_width)
+    pip_height=$(16_9_window_height pip_width)
     
     wmctrl -i -r $pip_window_id -b remove,maximized_vert,maximized_horz
     wmctrl -i -r $pip_window_id -e 0,$(( screen_width - pip_width - pip_margin_right )),$pip_margin_top,$pip_width,$pip_height
