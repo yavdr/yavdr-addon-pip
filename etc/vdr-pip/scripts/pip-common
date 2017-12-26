@@ -43,7 +43,7 @@ function _pre_start
     cp /var/lib/vdr/channels.conf /var/lib/vdr-pip/channels.conf
 
     # get the window id of the currently active vdr frontend
-    main_window_id=$(wmctrl -l | awk '/VDR|softhddevice|xine|kiosk-browser|Firefox/{print $1}')
+    main_window_id=$(wmctrl -l | awk '/\yVDR\B|softhddevice|xine|kiosk-browser|Firefox/{print $1}')
 
     # write variables to a file, so we can read them later
     echo "main_window_id=${main_window_id}" > "$tmp_file"
