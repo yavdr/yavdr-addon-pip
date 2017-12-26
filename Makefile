@@ -15,5 +15,7 @@ install:
 	@cp etc/dbus-1/system.d/de.tvdr.vdr1.conf $(DESTDIR)/etc/dbus-1/system.d/
 	@mkdir -p $(DESTDIR)/etc/vdr-pip/scripts/
 	@cp -r etc/vdr-pip/ $(DESTDIR)/etc/
+	@mkdir -p $(DESTDIR)/usr/bin/
+	@cp usr/bin/pipswap $(DESTDIR)/usr/bin/
 
 clean:
