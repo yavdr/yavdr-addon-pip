@@ -5,9 +5,10 @@ Description=Start vdr instance for PIP usage
 PassEnvironment=DISPLAY XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS
 EnvironmentFile=/etc/vdr-pip/vdrargs.conf
 Type=notify
-ExecStartPre=/etc/vdr-pip/scripts/pip-common pre_start
+ExecStartPre=/bin/bash /etc/vdr-pip/scripts/%I pre_start
 ExecStart=/usr/bin/vdr $vdr_args
-ExecStartPost=/bin/bash "/etc/vdr-pip/scripts/$I"
+ExecStartPost=/bin/bash /etc/vdr-pip/scripts/%I post_start
+ExecStopPost=/bin/bash /etc/vdr-pip/scripts/%I post_stop
 
 [Install]
 DefaultInstance=default

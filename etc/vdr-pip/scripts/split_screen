@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# get variables and helper functions
+. /etc/vdr-pip/scripts/pip-common
+
+function post_start
+{
+    _post_start
+    pip_width=720
+    vdr_width=1360
+    vdr_margin_right=20
+    vdr_margin_top=20
+
+    # calculate main vdr and pip vdr frontend size and position
+    vdr_width=$(( (vdr_width * screen_width)/1920 ))
+    vdr_height=$(16_9_window_height vdr_width)
+    pip_width=$(( (pip_width * screen_width)/1920 ))
+    pip_height=$(16_9_window_height pip_width)
+    
+    # resize main window
+    wmctrl -i -r $main_window_id -b remove,maximized_vert,maximized_horz
+    wmctrl -i -r $main_window_id -b remove,fullscreen
+    wmctrl -i -r $main_window_id -e 0,$vdr_margin_right,$vdr_margin_top,$vdr_width,$vdr_height
+    
+    wmctrl -i -r $pip_window_id -b remove,maximized_vert,maximized_horz
+    wmctrl -i -r $pip_window_id -e 0,$(( screen_width - pip_width - pip_margin_right )),$(( screen_height - pip_height - pip_margin_top )),$pip_width,$pip_height
+    wmctrl -i -r $pip_window_id -b add,above
+}
+
+case "$1" in
+    pre_start)
+        _pre_start
+	;;
+    post_start)
+        post_start
+	;;
+    post_stop)
+	_post_stop
+	;;
+esac

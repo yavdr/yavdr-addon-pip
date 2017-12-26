@@ -1,23 +1,43 @@
 #!/bin/bash
 
-# get variables and helper functions
-. /etc/vdr-pip/scripts/pip-common post_start 
+# load variables and helper functions
+. /etc/vdr-pip/scripts/pip-common
 
-# additional functions:
+# this provides additional functions:
+#
 # vdr-pip-dbus-send (like vdr-dbus-send but for vdr with instance id 1)
 # get_vdr_channel => sets variable vdr_channel
 # get_pip_channel => sets variable pip_channel
-
-# Available variables:
-# vdr_channel
+#
+# _post_start defines some variables:
 # screen_witdh
 # screen_height
 # main_window_id
 # pip_window_id
+# pip_width
+# pip_margin_right
+# pip_margin_top
+    
+function post_start
+{
+    
+    _post_start
+    # calculate pip size and position
+    pip_height=$(get_16_9_window_height pip_width)
+    
+    wmctrl -i -r $pip_window_id -b remove,maximized_vert,maximized_horz
+    wmctrl -i -r $pip_window_id -e 0,$(( screen_width - pip_width - pip_margin_right )),$pip_margin_top,$pip_width,$pip_height
+    wmctrl -i -r $pip_window_id -b add,above
+}
 
-# calculate pip size and position
-pip_height=$(( (pip_width * screen_height)/ screen_width ))
-
-wmctrl -i -r $pip_window_id -b remove,maximized_vert,maximized_horz
-wmctrl -i -r $pip_window_id -e 0,$(( screen_width - pip_width - pip_margin_right )),$pip_margin_top,$pip_width,$pip_height
-wmctrl -i -r $pip_window_id -b add,above
+case "$1" in
+    pre_start)
+        _pre_start
+	;;
+    post_start)
+        post_start
+	;;
+    post_stop)
+	post_stop
+	;;
+esac

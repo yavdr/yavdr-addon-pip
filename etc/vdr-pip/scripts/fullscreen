@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# get variables and helper functions
+. /etc/vdr-pip/scripts/pip-common post_start 
+
+function post_start
+{
+    _post_start
+    wmctrl -i -r $pip_window_id -b add,maximized_vert,maximized_horz
+    wmctrl -i -r $pip_window_id -b add,above
+}
+
+case "$1" in
+    pre_start)
+        _pre_start
+	;;
+    post_start)
+        post_start
+	;;
+    post_stop)
+	#post_stop
+	;;
+esac
