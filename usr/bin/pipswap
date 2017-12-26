@@ -9,6 +9,6 @@ get_vdr_channel
 get_pip_channel
 [ -z "$pip_channel" ] && exit
 
-vdr-dbus-send /Remote remote.SwitchChannel string:$pip_channel
-sleep 1
 vdr-pip-dbus-send /Remote remote.SwitchChannel string:$vdr_channel
+sleep 1
+vdr-dbus-send /Remote remote.SwitchChannel string:$pip_channel
