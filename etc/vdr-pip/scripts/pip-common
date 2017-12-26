@@ -39,13 +39,14 @@ function get_pip_channel
 # preparation before starting the pip vdr
 function _pre_start
 {
+    rm -f "$tmp_file"
+
     # update channels.conf
     cp /var/lib/vdr/channels.conf /var/lib/vdr-pip/channels.conf
 
     # get the window id of the currently active vdr frontend
     main_window_id=$(wmctrl -l | awk '/\yVDR\B|softhddevice|xine/{print $1; exit;}')
 
-    rm -f "$tmp_file"
     # write variables to a file, so we can read them later
     [ -n "$main_window_id" ] &&
     echo "main_window_id=${main_window_id}" > "$tmp_file"
@@ -71,19 +72,20 @@ function _post_start
     # get the window id of the pip vdr frontend
     if [ -z "$main_window_id" ]; then
         while [ -z "$pip_window_id" ]; do
-            pip_window_id=$(wmctrl -l | awk '/VDR|softhddevice|xine/ {print $1; exit;}' )
+            pip_window_id=$(wmctrl -l | awk '/\yVDR\B|softhddevice|xine/ {print $1; exit;}' )
 	done
     else
         while [ -z "$pip_window_id" ]; do
-            pip_window_id=$(wmctrl -l | awk '/VDR|softhddevice|xine/ && !/'"$main_window_id"'/ {print $1}')
+            pip_window_id=$(wmctrl -l | awk '/\yVDR\B|softhddevice|xine/ && !/'"$main_window_id"'/ {print $1}')
         done
     fi
 
     # write variables to temporary file
-    echo "pip_window_id=${pip_window_id}" >> "$tmp_file"
     echo "screen_width=${screen_width}" >> "$tmp_file"
     echo "screen_height=${screen_height}" >> "$tmp_file"
 
+    [ -z "$pip_window_id" ] && return
+    echo "pip_window_id=${pip_window_id}" >> "$tmp_file"
 }
 
 function _post_stop
