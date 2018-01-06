@@ -37,6 +37,6 @@ case "$1" in
         post_start
 	;;
     post_stop)
-	post_stop
+	_post_stop
 	;;
 esac
